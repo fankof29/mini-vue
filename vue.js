@@ -339,7 +339,7 @@ var LIFECYCLE_HOOKS = [
 ];
 
 /*  */
-
+//设置了一些基本的信息，但是具体的做饭还是需要再次处理或者探讨的
 var config = ({
   /**
    * Option merge strategies (used in core/util/options)
