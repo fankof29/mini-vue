@@ -6,7 +6,7 @@ import { warn, makeMap } from '../util/index'
 let initProxy
 
 if (process.env.NODE_ENV !== 'production') {
-  const allowedGlobals = makeMap(
+  const allowedGlobals = makeMap( //这些放到一个map之中
     'Infinity,undefined,NaN,isFinite,isNaN,' +
     'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
     'Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,' +

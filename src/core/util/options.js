@@ -357,25 +357,31 @@ export function mergeOptions (
   vm?: Component
 ): Object {
   if (process.env.NODE_ENV !== 'production') {
+    //判断是否是组件
     checkComponents(child)
   }
 
   if (typeof child === 'function') {
     child = child.options
   }
-
+  //判断有无props
   normalizeProps(child, vm)
+  //判断有无注入
   normalizeInject(child, vm)
+  //判断有无重定向
   normalizeDirectives(child)
+  // 判断有无extend
   const extendsFrom = child.extends
   if (extendsFrom) {
     parent = mergeOptions(parent, extendsFrom, vm)
   }
+  //是否有混入 如果有混入合并
   if (child.mixins) {
     for (let i = 0, l = child.mixins.length; i < l; i++) {
       parent = mergeOptions(parent, child.mixins[i], vm)
     }
   }
+  //最后再合并
   const options = {}
   let key
   for (key in parent) {

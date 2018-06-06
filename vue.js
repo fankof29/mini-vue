@@ -1541,6 +1541,7 @@ function mergeOptions (
   vm
 ) {
   {
+    //判断是否是组件
     checkComponents(child);
   }
 
@@ -4386,7 +4387,7 @@ function renderMixin (Vue) {
 }
 
 /*  */
-
+// 这个是用来区分组件的233
 var uid$1 = 0;
 
 function initMixin (Vue) {
@@ -4418,6 +4419,7 @@ function initMixin (Vue) {
         vm
       );
     }
+    //到这里是完成了往组件中注册option选项
     /* istanbul ignore else */
     {
       initProxy(vm);

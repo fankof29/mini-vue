@@ -19,7 +19,8 @@ export function initMixin (Vue: Class<Component>) {
     vm._uid = uid++
 
     let startTag, endTag
-    /* istanbul ignore if */
+    /* istanbul ignore if */ 
+    // 根据生产环境做一些调整 进行组件加载的。。。测量？
     if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
       startTag = `vue-perf-start:${vm._uid}`
       endTag = `vue-perf-end:${vm._uid}`
@@ -28,19 +29,21 @@ export function initMixin (Vue: Class<Component>) {
 
     // a flag to avoid this being observed
     vm._isVue = true
-    // merge options
+    // merge options  看起来是初始化options
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
       // internal component options needs special treatment.
       initInternalComponent(vm, options)
     } else {
+      // 合并选项
       vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
         options || {},
         vm
       )
     }
+        //到这里是完成了往组件中注册option选项
     /* istanbul ignore else */
     if (process.env.NODE_ENV !== 'production') {
       initProxy(vm)
@@ -87,7 +90,8 @@ function initInternalComponent (vm: Component, options: InternalComponentOptions
     opts.staticRenderFns = options.staticRenderFns
   }
 }
-
+//将组件的options 做处理
+//如果组件。。有super 【怀疑是组件专用】
 export function resolveConstructorOptions (Ctor: Class<Component>) {
   let options = Ctor.options
   if (Ctor.super) {
