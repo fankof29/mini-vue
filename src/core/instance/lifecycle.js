@@ -19,7 +19,8 @@ import {
 
 export let activeInstance: any = null
 export let isUpdatingChildComponent: boolean = false
-
+//定义了爸爸 和一堆状态
+//初始化了一顿目前不太清楚用来做啥的东西
 export function initLifecycle (vm: Component) {
   const options = vm.$options
 

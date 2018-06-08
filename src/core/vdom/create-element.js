@@ -94,7 +94,7 @@ export function _createElement (
     ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag)
     if (config.isReservedTag(tag)) {
       // platform built-in elements
-      vnode = new VNode(
+      vnode = new VNode( //来了一个虚拟节点
         config.parsePlatformTagName(tag), data, children,
         undefined, undefined, context
       )

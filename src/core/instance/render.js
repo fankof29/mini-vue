@@ -26,10 +26,10 @@ export function initRender (vm: Component) {
   // so that we get proper render context inside it.
   // args order: tag, data, children, normalizationType, alwaysNormalize
   // internal version is used by render functions compiled from templates
-  vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false)
+  vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false) //返回一个虚拟节点 在虚拟节点进行初始化绑定
   // normalization is always applied for the public version, used in
   // user-written render functions.
-  vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)
+  vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)//
 
   // $attrs & $listeners are exposed for easier HOC creation.
   // they need to be reactive so that HOCs using them are always updated
