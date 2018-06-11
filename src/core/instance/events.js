@@ -124,7 +124,7 @@ export function eventsMixin (Vue: Class<Component>) {
         )
       }
     }
-    let cbs = vm._events[event]
+    let cbs = vm._events[event]//有一个事件盒子.如果有这个事件.就调用.感谢apply
     if (cbs) {
       cbs = cbs.length > 1 ? toArray(cbs) : cbs
       const args = toArray(arguments, 1)

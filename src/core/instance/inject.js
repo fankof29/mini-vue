@@ -37,6 +37,7 @@ export function initInjections (vm: Component) {
 }
 
 export function resolveInject (inject: any, vm: Component): ?Object {
+  //看起来是处理注入?
   if (inject) {
     // inject is :any because flow is not smart enough to figure out cached
     const result = Object.create(null)

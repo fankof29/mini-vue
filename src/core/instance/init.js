@@ -54,8 +54,8 @@ export function initMixin (Vue: Class<Component>) {
     vm._self = vm
     initLifecycle(vm)//初始化一堆玩意
     initEvents(vm)//初始化事件?
-    initRender(vm)
-    callHook(vm, 'beforeCreate')
+    initRender(vm)//在这里建立了dep 但是还没有观察它.
+    callHook(vm, 'beforeCreate')//调用一下下声明周期
     initInjections(vm) // resolve injections before data/props
     initState(vm)
     initProvide(vm) // resolve provide after data/props

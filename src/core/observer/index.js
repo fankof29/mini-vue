@@ -136,7 +136,8 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
-  const dep = new Dep()
+  //来一个 dep
+  const dep = new Dep() //它看起来是有个独一无二的id 和 一个subs  难道是订阅发布中的...存档的?
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
   if (property && property.configurable === false) {
@@ -148,12 +149,13 @@ export function defineReactive (
   const setter = property && property.set
 
   let childOb = !shallow && observe(val)
+  //定义对象的get 和 set
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
-      if (Dep.target) {
+      if (Dep.target) {//看有没有人观察他??
         dep.depend()
         if (childOb) {
           childOb.dep.depend()
@@ -179,8 +181,12 @@ export function defineReactive (
       } else {
         val = newVal
       }
+      //上面看起来是根据情况设置新的val
       childOb = !shallow && observe(newVal)
+      发起更新指令
       dep.notify()
+      //通过这种写法...完全是分离了...只要告诉dep发布,就可以了
+      //看起来还使用了闭包..来存储变量 
     }
   })
 }

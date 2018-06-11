@@ -26,7 +26,7 @@ export function initRender (vm: Component) {
   // so that we get proper render context inside it.
   // args order: tag, data, children, normalizationType, alwaysNormalize
   // internal version is used by render functions compiled from templates
-  vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false) //返回一个虚拟节点 在虚拟节点进行初始化绑定
+  vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false) //绑定一个创举函数
   // normalization is always applied for the public version, used in
   // user-written render functions.
   vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)//
@@ -44,6 +44,7 @@ export function initRender (vm: Component) {
       !isUpdatingChildComponent && warn(`$listeners is readonly.`, vm)
     }, true)
   } else {
+    //这里..就开始绑定了 开始声明了绑定
     defineReactive(vm, '$attrs', parentData && parentData.attrs || emptyObject, null, true)
     defineReactive(vm, '$listeners', options._parentListeners || emptyObject, null, true)
   }
