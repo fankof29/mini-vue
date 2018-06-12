@@ -45,18 +45,18 @@ export function proxy (target: Object, sourceKey: string, key: string) {
   Object.defineProperty(target, key, sharedPropertyDefinition)
 }
 
-export function initState (vm: Component) {
+export function initState (vm: Component) {//看起来是要通过watcher 去监听dep
   vm._watchers = []
   const opts = vm.$options
-  if (opts.props) initProps(vm, opts.props)
-  if (opts.methods) initMethods(vm, opts.methods)
+  if (opts.props) initProps(vm, opts.props)//有无Prop 是否需要父子通信
+  if (opts.methods) initMethods(vm, opts.methods)//如果有方法要加载方法 讲方法保存在vm之中
   if (opts.data) {
-    initData(vm)
+    initData(vm)//将数据进行观察
   } else {
     observe(vm._data = {}, true /* asRootData */)
   }
-  if (opts.computed) initComputed(vm, opts.computed)
-  if (opts.watch && opts.watch !== nativeWatch) {
+  if (opts.computed) initComputed(vm, opts.computed)//如果有computed 计算computed
+  if (opts.watch && opts.watch !== nativeWatch) {//如果有watch 初始化watch
     initWatch(vm, opts.watch)
   }
 }
@@ -112,7 +112,7 @@ function initData (vm: Component) {
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
-  if (!isPlainObject(data)) {
+  if (!isPlainObject(data)) {//判断是否对象
     data = {}
     process.env.NODE_ENV !== 'production' && warn(
       'data functions should return an object:\n' +
@@ -125,10 +125,10 @@ function initData (vm: Component) {
   const props = vm.$options.props
   const methods = vm.$options.methods
   let i = keys.length
-  while (i--) {
+  while (i--) {//循环判断 prop 和 data 是否有重复数据
     const key = keys[i]
     if (process.env.NODE_ENV !== 'production') {
-      if (methods && hasOwn(methods, key)) {
+      if (methods && hasOwn(methods, key)) { 
         warn(
           `Method "${key}" has already been defined as a data property.`,
           vm
@@ -142,7 +142,7 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
-      proxy(vm, `_data`, key)
+      proxy(vm, `_data`, key)//使用拦截器 把一个sharedPropertyDefinition 放到vm之中,目前还不知道做啥的
     }
   }
   // observe data
@@ -249,7 +249,7 @@ function createComputedGetter (key) {
 }
 
 function initMethods (vm: Component, methods: Object) {
-  const props = vm.$options.props
+  const props = vm.$options.props//有无prop
   for (const key in methods) {
     if (process.env.NODE_ENV !== 'production') {
       if (methods[key] == null) {
@@ -261,7 +261,7 @@ function initMethods (vm: Component, methods: Object) {
       }
       if (props && hasOwn(props, key)) {
         warn(
-          `Method "${key}" has already been defined as a prop.`,
+          `Method "${key}" has already been defined as a prop.`,//prop 能定义函数啊
           vm
         )
       }
