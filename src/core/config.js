@@ -18,7 +18,7 @@ export type Config = {
   errorHandler: ?(err: Error, vm: Component, info: string) => void;
   warnHandler: ?(msg: string, vm: Component, trace: string) => void;
   ignoredElements: Array<string>;
-  keyCodes: { [key: string]: number | Array<number> };
+  keyCodes: { [key: string]: number | Array<number> };//记录按键
 
   // platform
   isReservedTag: (x?: string) => boolean;

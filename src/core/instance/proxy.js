@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
     'require' // for Webpack/Browserify
   )
 
-  const warnNonPresent = (target, key) => {
+  const warnNonPresent = (target, key) => { //一个警告信息
     warn(
       `Property or method "${key}" is not defined on the instance but ` +
       'referenced during render. Make sure that this property is reactive, ' +
@@ -23,14 +23,15 @@ if (process.env.NODE_ENV !== 'production') {
       target
     )
   }
-
+  //判断有无拦截器
+  //有就将 proxy 给 hasProxy
   const hasProxy =
     typeof Proxy !== 'undefined' &&
     Proxy.toString().match(/native code/)
 
   if (hasProxy) {
-    const isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact')
-    config.keyCodes = new Proxy(config.keyCodes, {
+    const isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact') //vue之中的事件 放到一个isBuilInModifier
+    config.keyCodes = new Proxy(config.keyCodes, { //使用一个拦截器,别让重复的键盘指令加入到已经存在的指令之中了
       set (target, key, value) {
         if (isBuiltInModifier(key)) {
           warn(`Avoid overwriting built-in modifier in config.keyCodes: .${key}`)
@@ -70,8 +71,8 @@ if (process.env.NODE_ENV !== 'production') {
       const handlers = options.render && options.render._withStripped
         ? getHandler
         : hasHandler
-      vm._renderProxy = new Proxy(vm, handlers)
-    } else {
+      vm._renderProxy = new Proxy(vm, handlers) //初始化 增加一个拦截器?
+    } else {//没有就指向自己?
       vm._renderProxy = vm
     }
   }
