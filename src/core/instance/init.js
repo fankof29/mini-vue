@@ -46,30 +46,30 @@ export function initMixin (Vue: Class<Component>) {
         //到这里是完成了往组件中注册option选项
     /* istanbul ignore else */
     if (process.env.NODE_ENV !== 'production') {
-      initProxy(vm)
+      initProxy(vm) //初始化拦截器
     } else {
       vm._renderProxy = vm
     }
     // expose real self
     vm._self = vm
-    initLifecycle(vm)
-    initEvents(vm)
-    initRender(vm)
-    callHook(vm, 'beforeCreate')
-    initInjections(vm) // resolve injections before data/props
-    initState(vm)
+    initLifecycle(vm)//初始化一堆玩意
+    initEvents(vm)//初始化事件?
+    initRender(vm)//在这里建立了dep 但是还没有观察它.
+    callHook(vm, 'beforeCreate')//调用一下下声明周期
+    initInjections(vm) // resolve injections before data/props 目前没弄清楚它做了什么
+    initState(vm)//初始化数据 计算 观察 在这里使用观察者 和订阅发布模式来观察数据
     initProvide(vm) // resolve provide after data/props
-    callHook(vm, 'created')
+    callHook(vm, 'created')//调用创建函数
 
     /* istanbul ignore if */
-    if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
+    if (process.env.NODE_ENV !== 'production' && config.performance && mark) {//暂时不知道 发生了什么
       vm._name = formatComponentName(vm, false)
       mark(endTag)
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
 
     if (vm.$options.el) {
-      vm.$mount(vm.$options.el)
+      vm.$mount(vm.$options.el)//渲染
     }
   }
 }

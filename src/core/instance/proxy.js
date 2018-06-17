@@ -64,7 +64,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
   }
 
-  initProxy = function initProxy (vm) {
+  initProxy = function initProxy (vm) { //加载了option之之中的数值. 使用了一个名为拦截器的玩意儿 拦截了所有的options
     if (hasProxy) {
       // determine which proxy handler to use
       const options = vm.$options

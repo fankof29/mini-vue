@@ -19,7 +19,8 @@ import {
 
 export let activeInstance: any = null
 export let isUpdatingChildComponent: boolean = false
-
+//定义了爸爸 和一堆状态
+//初始化了一顿目前不太清楚用来做啥的东西
 export function initLifecycle (vm: Component) {
   const options = vm.$options
 
@@ -312,7 +313,7 @@ export function deactivateChildComponent (vm: Component, direct?: boolean) {
 }
 
 export function callHook (vm: Component, hook: string) {
-  const handlers = vm.$options[hook]
+  const handlers = vm.$options[hook] //从option 之中读取一个事件. 调用这个事件...这么说..可以有多个方法??
   if (handlers) {
     for (let i = 0, j = handlers.length; i < j; i++) {
       try {
@@ -322,7 +323,7 @@ export function callHook (vm: Component, hook: string) {
       }
     }
   }
-  if (vm._hasHookEvent) {
-    vm.$emit('hook:' + hook)
+  if (vm._hasHookEvent) {//如果有事件.
+    vm.$emit('hook:' + hook)//通过$emit 全局提交
   }
 }

@@ -32,7 +32,7 @@ export const observerState = {
  * object's property keys into getter/setters that
  * collect dependencies and dispatches updates.
  */
-export class Observer {
+export class Observer {//
   value: any;
   dep: Dep;
   vmCount: number; // number of vms that has this object as root $data
@@ -41,15 +41,15 @@ export class Observer {
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
-    def(value, '__ob__', this)
-    if (Array.isArray(value)) {
+    def(value, '__ob__', this) //传入的val 定义一个 observer  里面装有 value dep  vmcount 
+    if (Array.isArray(value)) {//如果是数组 搞事情
       const augment = hasProto
         ? protoAugment
         : copyAugment
       augment(value, arrayMethods, arrayKeys)
       this.observeArray(value)
     } else {
-      this.walk(value)
+      this.walk(value)//调用walk 
     }
   }
 
@@ -60,7 +60,7 @@ export class Observer {
    */
   walk (obj: Object) {
     const keys = Object.keys(obj)
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {//给每一个变量执行一个玩意
       defineReactive(obj, keys[i], obj[keys[i]])
     }
   }
@@ -104,12 +104,12 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
-export function observe (value: any, asRootData: ?boolean): Observer | void {
+export function observe (value: any, asRootData: ?boolean): Observer | void {//注释写的真清楚
   if (!isObject(value) || value instanceof VNode) {
     return
   }
   let ob: Observer | void
-  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {//一个判断
     ob = value.__ob__
   } else if (
     observerState.shouldConvert &&
@@ -117,10 +117,10 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     (Array.isArray(value) || isPlainObject(value)) &&
     Object.isExtensible(value) &&
     !value._isVue
-  ) {
+  ) {//创建一个新的观察者 来观察传入的val
     ob = new Observer(value)
   }
-  if (asRootData && ob) {
+  if (asRootData && ob) {//记录观察数目?
     ob.vmCount++
   }
   return ob
@@ -136,7 +136,8 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
-  const dep = new Dep()
+  //来一个 dep
+  const dep = new Dep() //它看起来是有个独一无二的id 和 一个subs  难道是订阅发布中的...存档的?
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
   if (property && property.configurable === false) {
@@ -147,13 +148,14 @@ export function defineReactive (
   const getter = property && property.get
   const setter = property && property.set
 
-  let childOb = !shallow && observe(val)
+  let childOb = !shallow && observe(val)//判断是否有仔
+  //定义对象的get 和 set
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
-      if (Dep.target) {
+      if (Dep.target) {//看有没有人观察他??
         dep.depend()
         if (childOb) {
           childOb.dep.depend()
@@ -179,8 +181,12 @@ export function defineReactive (
       } else {
         val = newVal
       }
+      //上面看起来是根据情况设置新的val
       childOb = !shallow && observe(newVal)
+      发起更新指令
       dep.notify()
+      //通过这种写法...完全是分离了...只要告诉dep发布,就可以了
+      //看起来还使用了闭包..来存储变量 
     }
   })
 }

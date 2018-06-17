@@ -9,13 +9,18 @@
 </head>
 <body>
     <div id="fuck">
-        <p>{{gan}}</p>
+        <p v-on:click="go">{{gan}}</p>
     </div>
     <script>
         let v = new Vue({
             el:"#fuck",
             data:{
                 gan:'233'
+            },
+            methods:{
+                go: function(){
+                    console.log("233")
+                }
             }
         })
     </script>

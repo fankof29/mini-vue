@@ -14,7 +14,7 @@ export function initProvide (vm: Component) {
 }
 
 export function initInjections (vm: Component) {
-  const result = resolveInject(vm.$options.inject, vm)
+  const result = resolveInject(vm.$options.inject, vm) //看起来啥也没有做
   if (result) {
     observerState.shouldConvert = false
     Object.keys(result).forEach(key => {
@@ -37,6 +37,7 @@ export function initInjections (vm: Component) {
 }
 
 export function resolveInject (inject: any, vm: Component): ?Object {
+  //看起来是处理注入?
   if (inject) {
     // inject is :any because flow is not smart enough to figure out cached
     const result = Object.create(null)
