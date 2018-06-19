@@ -49,7 +49,7 @@ export function createCompileToFunctionFn (compile: Function): Function {
       }
     }
 
-    // check cache
+    // check cache 用一段html 去作为key？
     const key = options.delimiters
       ? String(options.delimiters) + template
       : template

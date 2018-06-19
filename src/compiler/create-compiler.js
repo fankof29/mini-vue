@@ -37,7 +37,7 @@ export function createCompilerCreator (baseCompile: Function): Function {
           }
         }
       }
-
+      //合并了option 然后 进行基础的编译？
       const compiled = baseCompile(template, finalOptions)
       if (process.env.NODE_ENV !== 'production') {
         errors.push.apply(errors, detectErrors(compiled.ast))
