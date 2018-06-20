@@ -8,6 +8,8 @@ function timeToString (data){
     return  year + '-' +( month<10?"0"+month:month )+"-"+(day<10?"0"+day:day);
 }
 
-let test = timeToString(new Date());
 
-console.log(test);
+
+with(this) {
+    return console.log("233")
+}

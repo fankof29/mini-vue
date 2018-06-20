@@ -47,7 +47,7 @@ export function generate (
     staticRenderFns: state.staticRenderFns
   }
 }
-
+//根据类型选择不同的生成
 function genSSRElement (el: ASTElement, state: CodegenState): string {
   if (el.for && !el.forProcessed) {
     return genFor(el, state, genSSRElement)
@@ -74,7 +74,7 @@ function genSSRElement (el: ASTElement, state: CodegenState): string {
       return genNormalElement(el, state, false)
     default:
       // bail whole tree
-      return genElement(el, state)
+      return genElement(el, state)//对象开始抽象化。
   }
 }
 
