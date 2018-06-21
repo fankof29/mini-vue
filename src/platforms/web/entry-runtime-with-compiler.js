@@ -62,13 +62,15 @@ Vue.prototype.$mount = function (
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
         mark('compile')
       }
-
+      //这里来了一波编译
       const { render, staticRenderFns } = compileToFunctions(template, {
         shouldDecodeNewlines,
         delimiters: options.delimiters,
         comments: options.comments
       }, this)
+      // 渲染
       options.render = render
+      // 静态渲染
       options.staticRenderFns = staticRenderFns
 
       /* istanbul ignore if */
