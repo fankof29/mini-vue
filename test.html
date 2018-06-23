@@ -9,26 +9,28 @@
 </head>
 <body>
     <div id="fuck">
-        <p>{{gan.name}}</p>
-        <p>{{gan.val}}</p>
         <p>{{gan}}</p>
-
+        <p>{{gan}}</p>
+        <p>{{gan}}</p>
+        <p>{{gan}}</p>
     </div>
     <script>
         let v = new Vue({
             el:"#fuck",
             data:{
-                gan:{
-                    name:'123',
-                    val:"234"
-                },
-                b:"222"
+               gan:'233'
             },
-            methods:{
-                go: function(){
-                    console.log("233")
-                }
-            }
+            created: [
+    function () {
+      console.log('first')
+    },
+    function () {
+      console.log('second')
+    },
+    function () {
+      console.log('third')
+    }
+  ]
         })
     </script>
 </body>
