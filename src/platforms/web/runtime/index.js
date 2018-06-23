@@ -38,6 +38,7 @@ Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // 选择HTMLElement
   el = el && inBrowser ? query(el) : undefined
   return mountComponent(this, el, hydrating)
 }

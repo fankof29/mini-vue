@@ -38,7 +38,7 @@ export default class Watcher {
   newDepIds: ISet;
   getter: Function;
   value: any;
-
+// 终于到了特么的watcher
   constructor (
     vm: Component,
     expOrFn: string | Function,

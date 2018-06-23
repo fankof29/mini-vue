@@ -167,6 +167,7 @@ export function mountComponent (
       }
     }
   }
+  // 在这里进行渲染计算了
   callHook(vm, 'beforeMount')
 
   let updateComponent
@@ -189,11 +190,13 @@ export function mountComponent (
       measure(`vue ${name} patch`, startTag, endTag)
     }
   } else {
-    updateComponent = () => {
+    // 给这个变量来一个赋值啊
+    updateComponent = () => { 
+      // 进行更新
       vm._update(vm._render(), hydrating)
     }
   }
-
+  // 这里新建一个wathcer
   vm._watcher = new Watcher(vm, updateComponent, noop)
   hydrating = false
 

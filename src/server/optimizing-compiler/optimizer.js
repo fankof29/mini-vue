@@ -22,7 +22,7 @@ export const optimizability = {
 }
 
 let isPlatformReservedTag
-
+//ast 变成静态树？
 export function optimize (root: ?ASTElement, options: CompilerOptions) {
   if (!root) return
   isPlatformReservedTag = options.isReservedTag || no

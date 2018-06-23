@@ -52,7 +52,7 @@ function decodeAttr (value, shouldDecodeNewlines) {
   const re = shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr
   return value.replace(re, match => decodingMap[match])
 }
-
+//将html 转换为 ?
 export function parseHTML (html, options) {
   const stack = []
   const expectHTML = options.expectHTML

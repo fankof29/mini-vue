@@ -65,9 +65,11 @@ export function parse (
   options: CompilerOptions
 ): ASTElement | void {
   warn = options.warn || baseWarn
-
+  //是否有Pre
   platformIsPreTag = options.isPreTag || no
+  //检查绑定
   platformMustUseProp = options.mustUseProp || no
+  //检查SVG 和 math
   platformGetTagNamespace = options.getTagNamespace || no
 
   transforms = pluckModuleFunction(options.modules, 'transformNode')

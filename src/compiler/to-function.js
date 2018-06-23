@@ -49,7 +49,7 @@ export function createCompileToFunctionFn (compile: Function): Function {
       }
     }
 
-    // check cache
+    // check cache 用一段html 去作为key？
     const key = options.delimiters
       ? String(options.delimiters) + template
       : template
@@ -77,7 +77,7 @@ export function createCompileToFunctionFn (compile: Function): Function {
     // turn code into functions
     const res = {}
     const fnGenErrors = []
-    res.render = createFunction(compiled.render, fnGenErrors)
+    res.render = createFunction(compiled.render, fnGenErrors)// 创建一个内容为 compiled的函数
     res.staticRenderFns = compiled.staticRenderFns.map(code => {
       return createFunction(code, fnGenErrors)
     })
@@ -95,7 +95,11 @@ export function createCompileToFunctionFn (compile: Function): Function {
         )
       }
     }
-
+    //讲一段html 作为key 指向渲染函数  这样子的匿名函数
+    // (function anonymous(
+    // ) {
+    // with(this){return _c('div',{attrs:{"id":"fuck"}},[_c('p',{on:{"click":go}},[_v(_s(gan))])])}
+    // })
     return (cache[key] = res)
   }
 }
