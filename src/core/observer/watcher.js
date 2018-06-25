@@ -82,6 +82,7 @@ export default class Watcher {
         )
       }
     }
+    // 在这里调用添加依赖
     this.value = this.lazy
       ? undefined
       : this.get()
@@ -95,7 +96,8 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
-      value = this.getter.call(vm, vm)
+      // 在这里进行。。更新视图
+      value = this.getter.call(vm, vm) 
     } catch (e) {
       if (this.user) {
         handleError(e, vm, `getter for watcher "${this.expression}"`)
