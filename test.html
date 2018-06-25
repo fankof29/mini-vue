@@ -13,18 +13,25 @@
         <p >{{gan}}</p>
         <p >{{gan}}</p>
         <p >{{gan}}</p>
+
     </div>
     <script>
         let v = new Vue({
             el:"#fuck",
             data:{
-                gan:'233'
+               gan:'233'
             },
-            methods:{
-                go: function(){
-                    console.log("233")
-                }
-            }
+            created: [
+    function () {
+      console.log('first')
+    },
+    function () {
+      console.log('second')
+    },
+    function () {
+      console.log('third')
+    }
+  ]
         })
     </script>
 </body>
