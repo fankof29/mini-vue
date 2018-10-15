@@ -9,14 +9,23 @@
 </head>
 <body>
     <div id="fuck">
-        <p >{{gan}}</p>
+        <p >
+            {{gan == "233"? "123": b=="1"?"zeze":"ni"}}
+        </p>
+       
     </div>
     <script>
         let v = new Vue({
             el:"#fuck",
             data:{
-               gan:'233',
+               gan:'23',
+               b:"1"
             },
+            methods:{
+                go(){
+                    console.log(this.$refs)
+                }
+            }
         })
     </script>
 </body>

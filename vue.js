@@ -5146,7 +5146,7 @@ function appendChild (node, child) {
   node.appendChild(child);
 }
 
-function parentNode (node) {
+function parentNode  (node) {
   return node.parentNode
 }
 
@@ -5318,6 +5318,7 @@ function createPatchFunction (backend) {
   var inPre = 0;
   function createElm (vnode, insertedVnodeQueue, parentElm, refElm, nested) {
     vnode.isRootInsert = !nested; // for transition enter check
+    //判断是否有组件
     if (createComponent(vnode, insertedVnodeQueue, parentElm, refElm)) {
       return
     }
@@ -5327,10 +5328,10 @@ function createPatchFunction (backend) {
     var tag = vnode.tag;
     if (isDef(tag)) {
       {
-        if (data && data.pre) {
+        if (data && data.pre) {//在第一次看起来没用
           inPre++;
         }
-        if (
+        if (//一个检查 暂时麼用
           !inPre &&
           !vnode.ns &&
           !(
@@ -5825,6 +5826,7 @@ function createPatchFunction (backend) {
   }
 
   return function patch (oldVnode, vnode, hydrating, removeOnly, parentElm, refElm) {
+    //判断是否为空
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) { invokeDestroyHook(oldVnode); }
       return
@@ -5851,6 +5853,7 @@ function createPatchFunction (backend) {
             oldVnode.removeAttribute(SSR_ATTR);
             hydrating = true;
           }
+          //暂时不用管
           if (isTrue(hydrating)) {
             if (hydrate(oldVnode, vnode, insertedVnodeQueue)) {
               invokeInsertHook(vnode, insertedVnodeQueue, true);

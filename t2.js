@@ -1,3 +1,6 @@
-let a = 'b';
-let b = typeof a !== "undefinded" && a.toString().match(/^b/);
-console.log(false &&  [1,23] )
+var a = undefined;
+if(a === undefined) {
+    console.log("2333")
+}else {
+    console.log('222')
+}
