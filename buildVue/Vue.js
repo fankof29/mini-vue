@@ -2,14 +2,57 @@
     global.Vue = factory()
 }(this, function () {
     console.log("let's go")
+    function makeMap (
+  str,
+  expectsLowerCase
+) {
+  var map = Object.create(null);
+  var list = str.split(',');
+  for (var i = 0; i < list.length; i++) {
+    map[list[i]] = true;
+  }
+  return expectsLowerCase
+    ? function (val) { return map[val.toLowerCase()]; }
+    : function (val) { return map[val]; }
+}
     function noop(a, b, c) { }
-
+    function isObject (obj) {
+        return obj !== null && typeof obj === 'object'
+      }
     function isUndef(v) {
         return v === undefined || v === null
     }
+    function isTrue (v) {
+        return v === true
+      }
     function isDef(v) {
         return v !== undefined && v !== null
     }
+    var isTextInputType = makeMap('text,number,password,search,email,tel,url');
+
+    function sameInputType (a, b) {
+        if (a.tag !== 'input') { return true }
+        var i;
+        var typeA = isDef(i = a.data) && isDef(i = i.attrs) && i.type;
+        var typeB = isDef(i = b.data) && isDef(i = i.attrs) && i.type;
+        return typeA === typeB || isTextInputType(typeA) && isTextInputType(typeB)
+      }
+    function sameVnode (a, b) {
+        return (
+          a.key === b.key && (
+            (
+              a.tag === b.tag &&
+              a.isComment === b.isComment &&
+              isDef(a.data) === isDef(b.data) &&
+              sameInputType(a, b)
+            ) || (
+              isTrue(a.isAsyncPlaceholder) &&
+              a.asyncFactory === b.asyncFactory &&
+              isUndef(b.asyncFactory.error)
+            )
+          )
+        )
+      }
     //工具
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     function hasOwn(obj, key) {
@@ -84,7 +127,10 @@
         sharedPropertyDefinition.get = function PorxyGetter() {
             return this[sourceKey][key]
         }
-
+        sharedPropertyDefinition.set = function proxySetter (val) {
+            
+            this[sourceKey][key] = val;
+        };
         Object.defineProperty(target, key, sharedPropertyDefinition);
     }
     var has = [];
@@ -535,6 +581,7 @@
 
             var vnode;
             try {
+                debugger
                 vnode = render.call(vm._renderProxy, vm.$createElement)
             } catch (e) {
                 console.log(e);
@@ -948,11 +995,15 @@
             let vm = this;
             vm.$option = options;//
             //进行观察
-
+            
+            //加载数据 initData()
             initState(vm);
+            // 进行 vm._renderProxy = new Proxy(vm, hasHandle); 操作
             initProxy(vm);
+            // 加载 createElement 函数
             initRender(vm);
             if (vm.$option.el) {
+                // 渲染页面
                 vm.$mount(vm.$option.el);
             }
         }
@@ -974,7 +1025,9 @@
         var data = vm.$option.data;
         //一些检查 暂时不写
         vm._data = data;
+        // 对数据进行观察
         observe(data);
+        
         var keys = Object.keys(data);
         var i = keys.length;
         while (i--) {
@@ -1175,7 +1228,14 @@
             value = this.getter.call(vm, vm);
         } catch (e) {
             console.log("error", +e)
-        }
+        }finally {
+            // "touch" every property so they are all tracked as
+            // dependencies for deep watching
+            popTarget();
+            // this.cleanupDeps();
+          }
+        
+        return value
     }
     Watcher.prototype.addDep = function (dep) {
         dep.addSub(this);
@@ -1189,6 +1249,25 @@
     Watcher.prototype.run = function () {
         var value = this.get();
     }
+    Watcher.prototype.cleanupDeps = function cleanupDeps () {
+        var this$1 = this;
+    
+      var i = this.deps.length;
+      while (i--) {
+        var dep = this$1.deps[i];
+        if (!this$1.newDepIds.has(dep.id)) {
+          dep.removeSub(this$1);
+        }
+      }
+      var tmp = this.depIds;
+      this.depIds = this.newDepIds;
+      this.newDepIds = tmp;
+      this.newDepIds.clear();
+      tmp = this.deps;
+      this.deps = this.newDeps;
+      this.newDeps = tmp;
+      this.newDeps.length = 0;
+    };
     function pushTarget(_target) {
         if (Dep.target) { targetStack.push(Dep.target); }
         Dep.target = _target;
@@ -1199,12 +1278,15 @@
     //观察者
 
     function observe(data) {
-
+        if (!isObject(data) || data instanceof VNode) {
+            return
+          }
         var ob;
 
         ob = new Observer(data);
 
-
+        return ob;
+        
     }
 
     var Observer = function Observer(val) {
@@ -1236,6 +1318,7 @@
             enumerable: true,
             configurable: true,
             get: function reactiveGetter() {
+                debugger
                 var value = val;
                 if (Dep.target) {
                     dep.depend();
@@ -1247,6 +1330,9 @@
                 if (newVal == value) {
                     return
                 }
+
+                val = newVal;
+                childOb = observe(newVal);
                 dep.notify();
             }
 

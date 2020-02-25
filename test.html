@@ -5,28 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="vue.js"></script>
+    <!-- <script src="vue.js"></script> -->
+    <script src="./buildVue/Vue.js"></script>
+
 </head>
 <body>
     <div id="fuck">
-        <p >
-            {{gan == "233"? "123": b=="1"?"zeze":"ni"}}
-        </p>
-       
+        {{gan}}
     </div>
     <script>
         let v = new Vue({
             el:"#fuck",
             data:{
-               gan:'23',
-               b:"1"
+               gan:'a',
             },
-            methods:{
-                go(){
-                    console.log(this.$refs)
-                }
-            }
+            
         })
+       setTimeout(function(){
+        v._data.gan = 1
+       },1000)
     </script>
 </body>
 </html>
